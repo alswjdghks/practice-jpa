@@ -15,12 +15,22 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member = new Member();
-            member.setId(3L);
-            member.setName("C1");
-            member.setRoleType(RoleType.GUEST);
+            Member member1 = new Member();
+            member1.setName("A");
+            Member member2 = new Member();
+            member2.setName("B");
+            Member member3 = new Member();
+            member3.setName("C");
 
-            em.persist(member);
+            System.out.println("===================");
+            em.persist(member1);
+            em.persist(member2);
+            em.persist(member3);
+
+            System.out.println("member1 = " + member1.getId());
+            System.out.println("member2 = " + member2.getId());
+            System.out.println("member3 = " + member3.getId());
+            System.out.println("===================");
 
             tx.commit();
         } catch (Exception e) {
