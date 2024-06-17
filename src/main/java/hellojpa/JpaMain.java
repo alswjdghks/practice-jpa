@@ -15,11 +15,12 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            // 영속
-            Member member = em.find(Member.class,150L);
-            member.setName("new memberA");
+            Member member = new Member();
+            member.setId(3L);
+            member.setName("C1");
+            member.setRoleType(RoleType.GUEST);
 
-//            em.persist(member); 안하는게 정답임
+            em.persist(member);
 
             tx.commit();
         } catch (Exception e) {
