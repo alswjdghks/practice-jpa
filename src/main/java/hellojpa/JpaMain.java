@@ -16,13 +16,10 @@ public class JpaMain {
         tx.begin();
         try {
             // 영속
-            Member member1 = new Member(150L, "A");
-            Member member2 = new Member(160L, "B");
+            Member member = em.find(Member.class,150L);
+            member.setName("new memberA");
 
-            em.persist(member1);
-            em.persist(member2);
-
-            System.out.println("===================");
+//            em.persist(member); 안하는게 정답임
 
             tx.commit();
         } catch (Exception e) {
