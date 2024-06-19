@@ -16,26 +16,19 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
+            Movie movie = new Movie();
+            movie.setDirector("aaaa");
+            movie.setActor("bbb");
+            movie.setName("바람과 함께 사라지다.");
+            movie.setPrice(10000);
 
-            Team team =new Team();
-            team.setName("TeamA");
-            em.persist(team);
-
-            Member member = new Member();
-            member.setName("member1");
-            member.changeTeam(team);  // team.getMembers().add(member); 연관관계 주인에 값 입력X
-            em.persist(member);
-
+            em.persist(movie);
 
             em.flush();
             em.clear();
 
-            Member findMember = em.find(Member.class,member.getId()); // flush,clear 안하면 1차 캐시
-            List<Member> members = findMember.getTeam().getMembers();
-
-            for (Member m : members) {
-                System.out.println("m = " + m.getName());
-            }
+            Movie findMovie = em.find(Movie.class,movie.getId());
+            System.out.println("findMovie = " + findMovie.getName());
 
             tx.commit();
         } catch (Exception e) {
