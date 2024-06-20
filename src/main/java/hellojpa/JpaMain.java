@@ -17,16 +17,22 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Member member = new Member();
-            member.setName("user1");
-            member.setCreatedBy("kim");
-            member.setCreatedDate(LocalDateTime.now());
 
+            Member member = new Member();
+            member.setName("member1");
             em.persist(member);
 
             em.flush();
             em.clear();
 
+            Member refMember = em.getReference(Member.class, member.getId());
+            System.out.println("refMember = " + refMember.getClass());  //Proxy
+
+            Member findMember = em.find(Member.class,member.getId());
+            System.out.println("findMember = " + findMember.getClass()); // Member이 아닌 Proxy 반환
+
+
+            System.out.println("refMember == findMember: " + (refMember == findMember));  // 항상 true 반환
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
