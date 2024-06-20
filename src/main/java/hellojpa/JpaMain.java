@@ -28,14 +28,15 @@ public class JpaMain {
             Member refMember = em.getReference(Member.class, member.getId());
             System.out.println("refMember = " + refMember.getClass());  //Proxy
 
-            Member findMember = em.find(Member.class,member.getId());
-            System.out.println("findMember = " + findMember.getClass()); // Member이 아닌 Proxy 반환
+            em.detach(refMember); // 영속성 컨텍스트 종료
+//            em.close();
 
+            System.out.println("refMember.getName() = " + refMember.getName());// 영속성 컨텍스트에서 관리 X -> 안에 없다.
 
-            System.out.println("refMember == findMember: " + (refMember == findMember));  // 항상 true 반환
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
+            e.printStackTrace();
         }finally {
             em.close();
         }
