@@ -18,21 +18,24 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
             Member member = new Member();
             member.setName("member1");
+            member.setTeam(team);
             em.persist(member);
 
             em.flush();
             em.clear();
 
-            Member refMember = em.getReference(Member.class, member.getId()); //proxy 클래스 확인 방법
-            refMember.getName();//JPA식 강제 초기화
-            System.out.println("isLoaded=" + emf.getPersistenceUnitUtil().isLoaded(refMember));
-            // proxy 인스턴스의 초기화 여부 확인
+            Member m = em.find(Member.class,member.getId()); // member의 쿼리 나감
+            System.out.println("m = " + m.getTeam().getClass()); // 현재 member의 team은 proxy 객체 -> team에 대한 정보 없음
 
-            Hibernate.initialize(refMember); // 강제 초기화, JPA 표준에는 강제 초기화가 없다.
-
+            System.out.println("===========");
+            System.out.println("m.getTeam().getName() = " + m.getTeam().getName()); // 초기화 이때 team에 대한 쿼리문이 나감 -> team에 대한 정보 확인
+            System.out.println("===========");
 
             tx.commit();
         } catch (Exception e) {
