@@ -30,11 +30,11 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            Member m = em.find(Member.class,member.getId()); // member의 쿼리 나감
-            System.out.println("m = " + m.getTeam().getClass()); // 현재 member의 team은 proxy 객체 -> team에 대한 정보 없음
+            Member m = em.find(Member.class,member.getId()); // member 와 team 쿼리 같이 나감 -> 실무에서 즉시로딩 사용X
+            System.out.println("m = " + m.getTeam().getClass()); // proxy 객체 아님
 
             System.out.println("===========");
-            System.out.println("m.getTeam().getName() = " + m.getTeam().getName()); // 초기화 이때 team에 대한 쿼리문이 나감 -> team에 대한 정보 확인
+            System.out.println("m.getTeam().getName() = " + m.getTeam().getName());
             System.out.println("===========");
 
             tx.commit();
