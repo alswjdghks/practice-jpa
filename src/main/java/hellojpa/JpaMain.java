@@ -26,9 +26,12 @@ public class JpaMain {
             parent.addChild(child2);
             em.persist(parent);
 
-//          cascade 사용시 생략 가능
-//            em.persist(child1);
-//            em.persist(child2);
+            em.flush();
+            em.clear();
+
+            Parent findParent = em.find(Parent.class,parent.getId());
+            em.remove(findParent);
+            // orphanRemoval 사용 시 findParent의 child들도 같이 제거된다.
 
             tx.commit();
         } catch (Exception e) {
