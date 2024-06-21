@@ -26,13 +26,24 @@ public class Member {
     @Embedded
     private Address homeAddress;
 
-    @ElementCollection
-    @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID")) // fetch 전략 : LAZY
+    @ElementCollection // fetch 전략 : LAZY
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns = @JoinColumn(name = "MEMBER_ID"))
     private Set<String> favoriteFoods = new HashSet<>();
 
-    @ElementCollection
-    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID")) // fetch 전략 : LAZY
-    private List<Address> addressHistory = new ArrayList<>();
+//    @ElementCollection // fetch 전략 : LAZY  -> 값 타입 컬렉션 사용하면 안됨
+//    @CollectionTable(name = "ADDRESS", joinColumns = @JoinColumn(name = "MEMBER_ID"))
+//    private List<Address> addressHistory = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addressHistory = new ArrayList<>();
+
+    public List<AddressEntity> getAddressHistory() {
+        return addressHistory;
+    }
+
+    public void setAddressHistory(List<AddressEntity> addressHistory) {
+        this.addressHistory = addressHistory;
+    }
 
     public Address getHomeAddress() {
         return homeAddress;
@@ -48,14 +59,6 @@ public class Member {
 
     public void setFavoriteFoods(Set<String> favoriteFoods) {
         this.favoriteFoods = favoriteFoods;
-    }
-
-    public List<Address> getAddressHistory() {
-        return addressHistory;
-    }
-
-    public void setAddressHistory(List<Address> addressHistory) {
-        this.addressHistory = addressHistory;
     }
 
     public Team getTeam() {
