@@ -18,20 +18,10 @@ public class JpaMain {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-            Child child1 = new Child();
-            Child child2 = new Child();
-
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-            em.persist(parent);
-
-            em.flush();
-            em.clear();
-
-            Parent findParent = em.find(Parent.class,parent.getId());
-            em.remove(findParent);
-            // orphanRemoval 사용 시 findParent의 child들도 같이 제거된다.
+            Member member = new Member();
+            member.setName("jerry");
+            member.setHomeAddress(new Address("city","street","zipcode"));
+            member.setWordkPeriod(new Period());
 
             tx.commit();
         } catch (Exception e) {
